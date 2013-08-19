@@ -1,0 +1,68 @@
+<html>
+<head>
+	<style type="text/css">
+		.bigheader { 
+			color:#e76b19;
+			text-align:center;
+			font-size: 1.4em;
+		}
+		.smallheader{
+			font-size:1em;
+			color:#9aa43f; 
+			font-family:Calibri, Tahoma, Arial, sans-serif; 
+			text-align:center;
+		}
+	</style>
+	<script type="text/javascript"	src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+		tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+		});
+	</script>
+    <script type="text/javascript">
+		//каждый раз вычислять факториалы - невыгодно, сформируем справочную таблицу
+		var factorial = {'0':1, '1':1, '2':2, '3':6, '4':24, '5':120, '6':720, '7':5040, '8':40320, '9':362880};
+		window.onload=function(){
+
+			factorizable = [];
+			for (var i = 1; i <= 2540160; i++){
+				if (i == factorials_repr(i)){
+					factorizable.push(i);
+				}
+			}
+			document.getElementById('calculations').innerHTML = 'Вот эти числа: ' + factorizable.join();
+		}
+		
+		function factorials_repr(k){
+			result = 0;
+			sk = String(k);
+			for (var i = 0; i <= sk.length - 1; i++){
+				result = result + factorial[sk[i]];
+			}
+			return result;
+		}
+    </script>
+</head>
+<body>
+<div style="margin:0.7em; background-color: #e5eaf0; display:block;padding:20px;" id="result">
+<div class="bigheader">
+Задание 1.
+</div>
+<div>
+<p>Вывести список всех чисел, которые равны сумме факториалов своих цифр.<p>
+<p class="smallheader">Рассуждения о верхней границе вычислений. </p>
+<p>Обозначим n-значное число в десятичной системе f(n). Рассмотрим следующие неравенства: </p>
+<p>$f(n)=x_1*10^n-1 + x_2*10^n-2 + ... + x_n*10^0$,</p>
+<p>$10^{n-1} \leq f(n) \leq 10^n - 1$,</p>
+<p>$1*n \leq x_1! + x_2! + ... + x_n! \leq 9!*n$.</p>
+<p>Из этих неравенств следует, что если мы хотим сгенерировать $f(n) = x_1! + ... + x_n!$, необходимо, чтобы 
+$x_1! + ... + x_n! \geq 10^{n-1}$, а это возможно только для $n \leq 7$, т.к. $10^{n-1}$ растет быстрее, чем $9!*n$, ну действительно: </p>
+<p>$n = 7; 10^{n-1} = 1000000, 9!*n = 2540160$</p>
+<p>$n = 8; 10^{n-1} = 10000000, 9!*n = 2903040$ - уже никак не насобираем факториалов, чтобы их сумма сформировала нужное число</p>
+<p>$n = 9; 10^{n-1} = 100000000, 9!*n = 3265920$ - дальнейшая тенденция ясна...</p>
+</div>
+<p class="smallheader">Решение</p>
+<div id="calculations"></div>
+</div>
+</body>
+</html>
